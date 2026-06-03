@@ -27,7 +27,11 @@ function TaskItem({ task, onDelete, onToggle }) {
 
         <button
         className="delete-btn"
-        onClick={() => onDelete(task.id)}
+        onClick={() => {
+            if (window.confirm("Delete this task?")) {
+            onDelete(task.id);
+            }
+        }}
         >
         Delete
         </button>

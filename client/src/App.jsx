@@ -5,9 +5,15 @@ import TaskItem from "./components/TaskItem";
 import "./App.css";
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [filter, setFilter] = useState("all");
   const completedTasks = tasks.filter(
   task => task.completed
   ).length;
+  const filteredTasks = tasks.filter((task) => {
+  if (filter === "active") return !task.completed;
+  if (filter === "completed") return task.completed;
+  return true;
+  });
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -65,14 +71,33 @@ async function toggleTask(id) {
       Completed: {completedTasks} / {tasks.length}
      </p>
       <TaskForm onAddTask={addTask} />
-      {tasks.map((task) => (
-  <TaskItem
-    key={task.id}
-    task={task}
-    onDelete={deleteTask}
-    onToggle={toggleTask}
-  />
-))}
+      <div className="filters">
+  <button onClick={() => setFilter("all")}>
+    All
+  </button>
+
+  <button onClick={() => setFilter("active")}>
+    Active
+  </button>
+
+  <button onClick={() => setFilter("completed")}>
+    Completed
+  </button>
+  </div>
+      {tasks.length === 0 ? (
+  <p className="empty-state">
+    No tasks yet. Add your first task!
+  </p>
+) : (
+  filteredTasks.map((task) => (
+    <TaskItem
+      key={task.id}
+      task={task}
+      onDelete={deleteTask}
+      onToggle={toggleTask}
+    />
+  ))
+)}
     </div>
   );
 }
