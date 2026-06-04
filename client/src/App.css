@@ -238,3 +238,6 @@ button {
     border-right-color: var(--border);
   }
 }
+.overdue {
+  border: 2px solid red;
+}

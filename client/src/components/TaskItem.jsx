@@ -1,6 +1,14 @@
 function TaskItem({ task, onDelete, onToggle }) {
-  return (
-    <div className="task-card">
+ return (
+    <div
+      className={`task-card ${
+        task.dueDate &&
+        !task.completed &&
+        new Date(task.dueDate) < new Date()
+          ? "overdue"
+          : ""
+      }`}
+    >
       <h3
         style={{
           textDecoration: task.completed
@@ -12,6 +20,9 @@ function TaskItem({ task, onDelete, onToggle }) {
       </h3>
 
       <p>{task.description}</p>
+        {task.dueDate && (
+          <p>Due: {task.dueDate}</p>
+        )}
         <p>
         Status:
         {task.completed
